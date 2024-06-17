@@ -18,14 +18,20 @@ exp2 = const[-1] * np.exp(-(t_exp2 - (T_per + 1)) / T_ust)
 t_total = np.concatenate((t_exp1, t_const, t_exp2))
 f_total = np.concatenate((exp1, const, exp2))
 
-# Plot the functions
+# Create a step function overlay for the right-side exponential part
+step_intervals = 10
+step_t = np.linspace(T_per + 1, T_per + 1 + T_ust, step_intervals)
+step_f = const[-1] * np.exp(-(step_t - (T_per + 1)) / T_ust)
+
+# Plot the functions with step function overlay
 plt.figure(figsize=(10, 6))
 plt.plot(t_total, f_total, label='Combined Function', color='blue')
+plt.step(step_t, step_f, where='post', label='Step Function', color='orange')
 plt.axvline(x=T_per, color='red', linestyle='--', label='T_per Boundary')
 plt.axvline(x=T_per + 1, color='green', linestyle='--', label='T_ust Boundary')
 plt.xlabel('Time')
 plt.ylabel('Function Value')
-plt.title('Combined Exponential and Constant Function (Continuous)')
+plt.title('Combined Exponential and Constant Function with Step Function Overlay')
 plt.legend()
 plt.grid(True)
 plt.show()
